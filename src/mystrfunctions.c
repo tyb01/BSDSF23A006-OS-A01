@@ -19,7 +19,7 @@ int mystrcpy (char* dest, const char* src) {
     	const char *s = src;
     	int cnt = 0;
     	while ((*d++ = *s++) != '\0') cnt++;
-    r	eturn cnt;
+    	return cnt;
 }
 
 /* Copy at most n characters, pad with '\\0' if src shorter.

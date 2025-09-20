@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 
     char partial[10];
     int n = mystrncpy(partial, "ABCDEFGHIJK", 5);
-    partial[5] = '\\0';
+    partial[5] = '\0';
     printf("partial (first 5) = '%s' (returned %d)\n", partial, n);
 
     printf("\n--- Testing File Functions ---\n");
