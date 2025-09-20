@@ -37,3 +37,32 @@ It demonstrates that your code builds successfully on your environment.
 For large projects or where builds require special environment, attached binary avoids complex build steps for the consumer.
 
 For shared libraries, attach .so / .a if required by the assignment so the grader can test multiple linking scenarios.
+
+
+Q1. What is Position-Independent Code (-fPIC) and why required?
+
+-fPIC generates machine code that uses relative addressing instead of absolute addresses.
+
+Shared libraries may be loaded at different addresses in different processes. With PIC, the library can be mapped anywhere without modification.
+
+Without PIC, the loader would need to rewrite instructions at runtime (slow and unsafe).
+
+So -fPIC is fundamental for .so builds.
+
+Q2. Why is client_dynamic smaller than client_static?
+
+client_static embeds the library code inside itself (every function needed is copied in).
+
+client_dynamic only has references to libmyutils.so. At runtime, the .so is loaded into memory and shared.
+
+Therefore, dynamic executables are smaller and multiple processes can share the same .so in memory.
+
+Q3. What is LD_LIBRARY_PATH? Why did we need it?
+
+LD_LIBRARY_PATH is an environment variable telling the dynamic loader (ld-linux) where to search for shared libraries at runtime.
+
+By default, loader searches system dirs like /usr/lib. Our libmyutils.so was in a custom ./lib/, so it wasn’t found.
+
+Setting LD_LIBRARY_PATH=$(pwd)/lib added our project’s lib folder to the search path.
+
+This demonstrates that the OS dynamic loader is responsible for locating .so files at program startup.
