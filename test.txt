@@ -1,0 +1,3 @@
+This is a sample file.
+It has multiple lines.
+TODO: add a line with TODO to test mygrep.
