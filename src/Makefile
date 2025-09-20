@@ -1,24 +1,43 @@
+# src/Makefile - builds static lib and client
+
 CC = gcc
 CFLAGS = -Wall -Wextra -I../include -g
-
 OBJDIR = ../obj
 BINDIR = ../bin
-TARGET = $(BINDIR)/client
+LIBDIR = ../lib
 
-SRCS = mystrfunctions.c myfilefunctions.c main.c
-OBJS = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
+SRCS = mystrfunctions.c myfilefunctions.c
+OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
+MAINOBJ = $(OBJDIR)/main.o
 
-.PHONY: all clean
+LIB = $(LIBDIR)/libmyutils.a
+TARGET = $(BINDIR)/client_static
 
-all: $(TARGET)
+.PHONY: all clean dirs
 
-# build target by linking objects
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+all: dirs $(TARGET)
 
-# rule to build any .o from its .c
-$(OBJDIR)/%.o: %.c
+dirs:
+	mkdir -p $(OBJDIR) $(BINDIR) $(LIBDIR)
+
+# compile each .c (except main) into ../obj/%.o
+$(OBJDIR)/%.o: %.c | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# build static library
+$(LIB): $(OBJS)
+	ar rcs $@ $^
+	ranlib $@
+
+# compile main separately
+$(MAINOBJ): main.c | dirs
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# link client against static lib
+$(TARGET): $(MAINOBJ) $(LIB)
+	$(CC) $(CFLAGS) $(MAINOBJ) -L$(LIBDIR) -lmyutils -o $@
+
 clean:
-	rm -f $(OBJDIR)/*.o $(TARGET)
+	rm -f $(OBJDIR)/*.o
+	rm -f $(TARGET)
+	rm -f $(LIB)
