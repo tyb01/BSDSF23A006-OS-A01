@@ -1,6 +1,6 @@
 # Operating Systems Assignment – PA-01  
 
-## Overview  
+## 📌 Overview  
 This project demonstrates how to build, structure, and document a Linux software project step by step. It covers:  
 - Multi-file compilation  
 - Using Makefiles  
@@ -12,126 +12,128 @@ The final deliverable is a command-line program called **`client`** that uses bo
 
 ---
 
-##  Project Structure  
+## 📂 Project Structure  
 
+```
 BSDSF23A006-OS-A01/
-│── include/ # Header files (.h)
-│ ├── mystrfunctions.h
-│ ├── myfilefunctions.h
+│── include/            # Header files (.h)
+│   ├── mystrfunctions.h
+│   ├── myfilefunctions.h
 │
-│── src/ # Source files (.c)
-│ ├── mystrfunctions.c
-│ ├── myfilefunctions.c
-│ ├── main.c
+│── src/                # Source files (.c)
+│   ├── mystrfunctions.c
+│   ├── myfilefunctions.c
+│   ├── main.c
 │
-│── lib/ # Libraries (.a and .so)
-│ ├── libmyutils.a
-│ ├── libmyutils.so
+│── lib/                # Libraries (.a and .so)
+│   ├── libmyutils.a
+│   ├── libmyutils.so
 │
-│── bin/ # Binaries
-│ ├── client
-│ ├── client_static
-│ ├── client_dynamic
+│── bin/                # Binaries
+│   ├── client
+│   ├── client_static
+│   ├── client_dynamic
 │
-│── man/ # Documentation
-│ ├── man3/ # Function man pages
-│ ├── mystrlen.1
-│ ├── mystrcpy.1
-│ ├── mystrncpy.1
-│ ├── mystrcat.1
-│ ├── wordcount.1
-│ └── mygrep.1
+│── man/                # Documentation
+│   ├── man3/           # Function man pages
+│   │   ├── mystrlen.1
+│   │   ├── mystrcpy.1
+│   │   ├── mystrncpy.1
+│   │   ├── mystrcat.1
+│   │   ├── wordcount.1
+│   │   └── mygrep.1
 │
-│── Makefile # Build automation
-│── REPORT.md # Report answers
-│── README.md # Project guide
+│── Makefile            # Build automation
+│── REPORT.md           # Report answers
+│── README.md           # Project guide
+```
 
 ---
-##  Build Instructions  
+
+## ⚙️ Build Instructions  
 
 ### 1. Clone the repository  
 ```bash
 git clone https://github.com/tyb01/BSDSF23A006-OS-A01.git
 cd BSDSF23A006-OS-A01
-2. Compile using Make
+```
+
+### 2. Compile using Make  
+```bash
 make
-Builds the program into bin/client.
+```
+This builds the program into `bin/client`.  
+Intermediate object files go to `obj/`.  
 
-Intermediate object files go to obj/.
-
-3. Clean build files
-bash
-Copy code
+### 3. Clean build files  
+```bash
 make clean
-📦 Installation
-Install the program and man pages system-wide:
+```
 
-bash
-Copy code
+---
+
+## 📦 Installation  
+
+Install the program and man pages system-wide:  
+```bash
 sudo make install
-Now you can run the program from anywhere:
+```
 
-bash
-Copy code
+Now you can run the program from anywhere:  
+```bash
 client test.txt
-And view the documentation:
+```
 
-bash
-Copy code
+And view the documentation:  
+```bash
 man client
 man mystrlen
 man mygrep
-🔑 Features Implemented
-Feature 1 – Multi-file Compilation
+```
 
-Code is split into .c and .h files.
+---
 
-Feature 2 – Makefile
+## 🔑 Features Implemented  
 
-Professional Makefile with macros and recursive build.
+### Feature 1 – Multi-file Compilation  
+- Code is split into `.c` and `.h` files.  
 
-Feature 3 – Static Library
+### Feature 2 – Makefile  
+- Professional Makefile with macros and recursive build.  
 
-Utility functions archived into libmyutils.a.
+### Feature 3 – Static Library  
+- Utility functions archived into `libmyutils.a`.  
+- Program linked with the static library.  
 
-Program linked with the static library.
+### Feature 4 – Dynamic Library  
+- Utility functions compiled into `libmyutils.so`.  
+- Program dynamically linked (requires `LD_LIBRARY_PATH`).  
 
-Feature 4 – Dynamic Library
+### Feature 5 – Man Pages & Install  
+- Created man pages for all functions and the client program.  
+- Added `install` target for system-wide installation.  
 
-Utility functions compiled into libmyutils.so.
+---
 
-Program dynamically linked (requires LD_LIBRARY_PATH).
+## 🛠 Git Workflow  
 
-Feature 5 – Man Pages & Install
+### Branches  
+- `multifile-build` → Multi-file project setup  
+- `static-build` → Static library build  
+- `dynamic-build` → Dynamic library build  
+- `man-pages` → Documentation & install target  
 
-Created man pages for all functions and the client program.
+### Tags & Releases  
+- `v0.1.1-multifile`  
+- `v0.2.1-static`  
+- `v0.3.1-dynamic`  
+- `v0.4.1-final`  
 
-Added install target for system-wide installation.
+Each tag corresponds to a GitHub Release with attached binaries and libraries.  
 
-🛠 Git Workflow
-Branches
+---
 
-multifile-build → Multi-file project setup
-
-static-build → Static library build
-
-dynamic-build → Dynamic library build
-
-man-pages → Documentation & install target
-
-Tags & Releases
-
-v0.1.1-multifile
-
-v0.2.1-static
-
-v0.3.1-dynamic
-
-v0.4.1-final
-
-Each tag corresponds to a GitHub Release with attached binaries and libraries.
-
- Author
-Name: Muhammad Tayyab
-Roll No: BSDSF23A006
-Email: tyb3122@gmail.com
+## 👨‍💻 Author  
+- **Name:** Muhammad Tayyab  
+- **Roll No:** BSDSF23A006  
+- **Email:** tyb3122@gmail.com  
