@@ -37,7 +37,7 @@
 
 ---
 
-## 📌 Feature 4: Dynamic Libraries
+## Feature 4: Dynamic Libraries
 
 **Q1. What is Position-Independent Code (-fPIC) and why is it a fundamental requirement for creating shared libraries?**  
 - PIC makes sure code can run no matter where it is loaded in memory.  
@@ -54,7 +54,7 @@
 
 ---
 
-## 📌 Feature 5: Man Pages & Installation
+##  Feature 5: Man Pages & Installation
 
 **Q1. What are the required sections of a man page and why?**  
 - `.TH`: Title and header info.  
@@ -72,7 +72,7 @@
 
 ---
 
-## 📌 Final Reflection
+##  Final Reflection
 
 This project helped me understand:  
 - How to split code into multiple files for clarity.  
@@ -80,5 +80,3 @@ This project helped me understand:
 - The difference between static and dynamic linking.  
 - How to create and use man pages for documentation.  
 - How to use Git features like branches, tags, and GitHub releases.  
-
-By the end, I feel more confident in working on real-world Linux/C projects.  
