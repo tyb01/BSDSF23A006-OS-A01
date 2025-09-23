@@ -46,7 +46,6 @@ BSDSF23A006-OS-A01/
 │── REPORT.md # Report answers
 │── README.md # Project guide
 
-yaml
 ---
 ##  Build Instructions  
 
