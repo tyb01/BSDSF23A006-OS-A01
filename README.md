@@ -72,7 +72,7 @@ make clean
 
 ---
 
-## 📦 Installation  
+##  Installation  
 
 Install the program and man pages system-wide:  
 ```bash
@@ -115,7 +115,7 @@ man mygrep
 
 ---
 
-## 🛠 Git Workflow  
+##  Git Workflow  
 
 ### Branches  
 - `multifile-build` → Multi-file project setup  
@@ -133,7 +133,7 @@ Each tag corresponds to a GitHub Release with attached binaries and libraries.
 
 ---
 
-## 👨‍💻 Author  
+##  Author  
 - **Name:** Muhammad Tayyab  
 - **Roll No:** BSDSF23A006  
 - **Email:** tyb3122@gmail.com  
