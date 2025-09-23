@@ -1,0 +1,18 @@
+.TH MYGREP 3 "September 2025" "Version 0.4.1" "Library Functions Manual"
+.SH NAME
+mygrep \- search lines containing a string in a file
+.SH SYNOPSIS
+.B int mygrep(FILE* fp, const char* search_str, char*** matches);
+.SH DESCRIPTION
+The
+.B mygrep()
+function scans each line of the file referenced by
+.I fp
+for the substring
+.I search_str .
+Lines containing the substring are stored in the
+.I matches
+array.
+The function returns the number of matches found, or -1 on failure.
+.SH AUTHOR
+Muhammad Tayyab <tyb3122@email.com>
