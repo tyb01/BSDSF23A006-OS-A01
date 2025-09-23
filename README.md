@@ -1,6 +1,6 @@
 # Operating Systems Assignment – PA-01  
 
-## 📌 Overview  
+##  Overview  
 This project demonstrates how to build, structure, and document a Linux software project step by step. It covers:  
 - Multi-file compilation  
 - Using Makefiles  
@@ -12,7 +12,7 @@ The final deliverable is a command-line program called **`client`** that uses bo
 
 ---
 
-## 📂 Project Structure  
+##  Project Structure  
 
 ```
 BSDSF23A006-OS-A01/
@@ -50,7 +50,7 @@ BSDSF23A006-OS-A01/
 
 ---
 
-## ⚙️ Build Instructions  
+##  Build Instructions  
 
 ### 1. Clone the repository  
 ```bash
@@ -93,7 +93,7 @@ man mygrep
 
 ---
 
-## 🔑 Features Implemented  
+##  Features Implemented  
 
 ### Feature 1 – Multi-file Compilation  
 - Code is split into `.c` and `.h` files.  
