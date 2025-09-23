@@ -1,68 +1,84 @@
-Q1 — Explain the linking rule $(TARGET): $(OBJECTS). How does it differ from linking against a library?
 
-With $(TARGET): $(OBJECTS), all $(OBJECTS) are specified explicitly and included in the link. The linker resolves symbols across these objects and produces the executable. This is the direct approach and is straightforward for small projects or initial builds.
+# REPORT.md
 
-With static library linking (link against libmyutils.a), you usually supply just the library instead of the object files. The static archive is a collection of .o files. During linking, the linker examines your unresolved symbol table and extracts only those .o files from the archive that define symbols needed by the executable. This can reduce binary size and allow separation of code. The library approach decouples compilation of the library from the main project.
+##  Feature 2: Multi-file Compilation with Makefile
 
-Practical difference: If you add an object to an archive but no symbol in the final program uses it, that object will not be pulled in (i.e., not included) — whereas if you listed that object directly in $(OBJECTS), it would always be linked in.
+**Q1. Explain the linking rule in this part's Makefile: `$(TARGET): $(OBJECTS)`. How does it differ from a Makefile rule that links against a library?**  
+- This rule means: to build the final program (`TARGET`), we need all the compiled object files (`OBJECTS`).  
+- In this case, the linker directly combines `.o` files into the executable.  
+- When linking against a library, the rule would instead use something like `-lmyutils` (with `-L` to show the library path), so the linker pulls functions from a library file instead of directly from object files.
 
-Q2 — What is a git tag and why is it useful? Difference between a simple tag and annotated tag?
+**Q2. What is a git tag and why is it useful in a project? What is the difference between a simple tag and an annotated tag?**  
+- A **git tag** marks a specific commit as important, usually for a release version.  
+- It helps track stable points in history.  
+- A **simple tag** is just a pointer to a commit.  
+- An **annotated tag** has extra info like message, author, and date (preferred for releases).  
 
-Short: A tag is a pointer to a specific commit used to mark releases. Annotated tags are full Git objects (with author, date, message, optionally GPG-signed). Lightweight tags are just a name pointing to a commit.
+**Q3. What is the purpose of creating a "Release" on GitHub? What is the significance of attaching binaries (like your client executable) to it?**  
+- A GitHub Release is a packaged version of your project for others to download easily.  
+- Attaching binaries means users don’t need to compile; they can directly run your program.  
 
-Detailed:
+---
 
-Usefulness: tags mark important points in history (releases, stable milestones). They make it easy to check out that exact code, and are used by release workflows and CI/CD systems.
+##  Feature 3: Static Libraries
 
-Lightweight tag: git tag v1.0 — is just a name. No meta information (author/time/message). Equivalent to a branch pointer but static.
+**Q1. Compare the Makefile from Part 2 and Part 3. What are the key differences in the variables and rules that enable the creation of a static library?**  
+- In Part 2, I  compiled `.c` files directly into an executable.  
+- In Part 3, I first compiled `.c` into `.o` files, then used `ar` to archive them into `libmyutils.a`.  
+- The Makefile links the main program with this `.a` library instead of separate `.o` files.  
 
-Annotated tag: git tag -a v1.0 -m "release notes" — stores tagger, timestamp, message. They are preferred for public releases because they record context and can be cryptographically signed.
+**Q2. What is the purpose of the `ar` command? Why is `ranlib` often used immediately after it?**  
+- `ar` collects object files into a static library (`.a`).  
+- `ranlib` adds an index so the linker can quickly find functions inside the library.  
 
-When creating a Release on GitHub, annotated tags are preferred because they carry the release message and metadata.
+**Q3. When you run `nm` on your `client_static` executable, are the symbols for functions like `mystrlen` present? What does this tell you about how static linking works?**  
+- No, the symbols don’t appear, because the code from the library is copied directly into the executable.  
+- This shows that static linking makes the final program self-contained and independent of the library file.  
 
-Q3 — Purpose of a GitHub Release; significance of attaching binaries
+---
 
-Short: A Release is a GitHub UI construct built on top of a tag that packages code, release notes, and binary artifacts for distribution.
+## 📌 Feature 4: Dynamic Libraries
 
-Detailed:
+**Q1. What is Position-Independent Code (-fPIC) and why is it a fundamental requirement for creating shared libraries?**  
+- PIC makes sure code can run no matter where it is loaded in memory.  
+- Shared libraries need this because different programs may load them at different memory addresses.  
 
-Releases provide a user-friendly way to publish stable versions of a project (with notes & assets). They are searchable, linkable, and allow users/grader to download compiled artifacts for quick evaluation.
+**Q2. Explain the difference in file size between your static and dynamic clients. Why does this difference exist?**  
+- The static client is larger because it contains full copies of all library functions.  
+- The dynamic client is smaller because it only stores references, and the actual code stays in the `.so` file, loaded at runtime.  
 
-Attaching binaries (e.g., bin/client) is important because:
+**Q3. What is the `LD_LIBRARY_PATH` environment variable? Why was it necessary to set it for your program to run, and what does this tell you about the responsibilities of the operating system's dynamic loader?**  
+- `LD_LIBRARY_PATH` tells the OS loader where to look for shared libraries.  
+- Without setting it, the system doesn’t know about your custom `libmyutils.so` in the project folder.  
+- This shows the loader’s job is to find and connect dynamic libraries when running a program.  
 
-The grader can run your compiled program without building (useful when they check many student submissions).
+---
 
-It demonstrates that your code builds successfully on your environment.
+## 📌 Feature 5: Man Pages & Installation
 
-For large projects or where builds require special environment, attached binary avoids complex build steps for the consumer.
+**Q1. What are the required sections of a man page and why?**  
+- `.TH`: Title and header info.  
+- `.SH NAME`: Program/function name and one-line description.  
+- `.SH SYNOPSIS`: Shows how to use it (syntax).  
+- `.SH DESCRIPTION`: Explains in detail what it does.  
+- `.SH AUTHOR`: Who wrote it.  
+- These sections keep all man pages consistent and easy to read.  
 
-For shared libraries, attach .so / .a if required by the assignment so the grader can test multiple linking scenarios.
+**Q2. Why use `make install`?**  
+- It simulates how software is installed on Linux.  
+- It copies the binary into `/usr/local/bin` so you can run it from anywhere.  
+- It copies man pages into the right folder so `man` can find them.  
+- It gives a real-world feel of how professional software is deployed.  
 
+---
 
-Q1. What is Position-Independent Code (-fPIC) and why required?
+## 📌 Final Reflection
 
--fPIC generates machine code that uses relative addressing instead of absolute addresses.
+This project helped me understand:  
+- How to split code into multiple files for clarity.  
+- How to use Makefiles to automate builds.  
+- The difference between static and dynamic linking.  
+- How to create and use man pages for documentation.  
+- How to use Git features like branches, tags, and GitHub releases.  
 
-Shared libraries may be loaded at different addresses in different processes. With PIC, the library can be mapped anywhere without modification.
-
-Without PIC, the loader would need to rewrite instructions at runtime (slow and unsafe).
-
-So -fPIC is fundamental for .so builds.
-
-Q2. Why is client_dynamic smaller than client_static?
-
-client_static embeds the library code inside itself (every function needed is copied in).
-
-client_dynamic only has references to libmyutils.so. At runtime, the .so is loaded into memory and shared.
-
-Therefore, dynamic executables are smaller and multiple processes can share the same .so in memory.
-
-Q3. What is LD_LIBRARY_PATH? Why did we need it?
-
-LD_LIBRARY_PATH is an environment variable telling the dynamic loader (ld-linux) where to search for shared libraries at runtime.
-
-By default, loader searches system dirs like /usr/lib. Our libmyutils.so was in a custom ./lib/, so it wasn’t found.
-
-Setting LD_LIBRARY_PATH=$(pwd)/lib added our project’s lib folder to the search path.
-
-This demonstrates that the OS dynamic loader is responsible for locating .so files at program startup.
+By the end, I feel more confident in working on real-world Linux/C projects.  
