@@ -1,0 +1,19 @@
+.TH WORDCOUNT 3 "September 2025" "Version 0.4.1" "Library Functions Manual"
+.SH NAME
+wordCount \- count lines, words, and characters in a file
+.SH SYNOPSIS
+.B int wordCount(FILE* file, int* lines, int* words, int* chars);
+.SH DESCRIPTION
+The
+.B wordCount()
+function counts the number of lines, words, and characters in the file
+stream referenced by
+.I file .
+The results are stored in the variables pointed to by
+.I lines ,
+.I words ,
+and
+.I chars .
+It returns 0 on success and -1 on failure.
+.SH AUTHOR
+Muhammad Tayyab <tyb3122@email.com>
