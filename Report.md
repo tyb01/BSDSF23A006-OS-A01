@@ -39,30 +39,43 @@ For large projects or where builds require special environment, attached binary 
 For shared libraries, attach .so / .a if required by the assignment so the grader can test multiple linking scenarios.
 
 
-Q1. What is Position-Independent Code (-fPIC) and why required?
 
--fPIC generates machine code that uses relative addressing instead of absolute addresses.
 
-Shared libraries may be loaded at different addresses in different processes. With PIC, the library can be mapped anywhere without modification.
 
-Without PIC, the loader would need to rewrite instructions at runtime (slow and unsafe).
 
-So -fPIC is fundamental for .so builds.
 
-Q2. Why is client_dynamic smaller than client_static?
 
-client_static embeds the library code inside itself (every function needed is copied in).
 
-client_dynamic only has references to libmyutils.so. At runtime, the .so is loaded into memory and shared.
+🔹 REPORT.md Answers (Part-3)
 
-Therefore, dynamic executables are smaller and multiple processes can share the same .so in memory.
+Q1. Compare the Makefile from Part-2 and Part-3. What are the key differences?
 
-Q3. What is LD_LIBRARY_PATH? Why did we need it?
+In Part-2, the Makefile linked all object files directly into the executable ($(TARGET): $(OBJECTS)).
 
-LD_LIBRARY_PATH is an environment variable telling the dynamic loader (ld-linux) where to search for shared libraries at runtime.
+In Part-3, utility object files are first archived into a static library (libmyutils.a), and then the main program is linked against the library using -L and -lmyutils.
 
-By default, loader searches system dirs like /usr/lib. Our libmyutils.so was in a custom ./lib/, so it wasn’t found.
+New variables: LIBDIR, LIB, and a new rule for building .a.
 
-Setting LD_LIBRARY_PATH=$(pwd)/lib added our project’s lib folder to the search path.
+This separation makes the build modular and scalable — multiple programs can reuse the same library without recompiling the utilities.
 
-This demonstrates that the OS dynamic loader is responsible for locating .so files at program startup.
+Q2. Purpose of ar and ranlib
+
+ar creates an archive of object files (.o) → .a.
+
+ar rcs means:
+
+r: replace or add files,
+
+c: create if needed,
+
+s: write an index (symbol table).
+
+ranlib updates the archive’s symbol index. Some systems need this for the linker to quickly resolve symbols. Even if ar rcs already writes the index, ranlib ensures portability.
+
+Q3. When you run nm on client_static, are the symbols present? What does that mean?
+
+Yes, symbols like mystrlen show up in nm bin/client_static.
+
+This means the function code was copied from the static library into the executable.
+
+It proves that static linking embeds library code inside the binary, unlike dynamic linking (where the binary just has references and the code is loaded at runtime from .so).
